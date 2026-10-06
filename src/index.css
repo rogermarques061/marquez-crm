@@ -1,0 +1,118 @@
+@import 'tailwindcss';
+
+/* Identidade Marquez: grafite + prata metálico da logo, cortes diagonais das barras do "M". */
+@theme {
+  --color-fundo: #0c0b10;
+  --color-lateral: #0f0e14;
+  --color-cartao: #15141b;
+  --color-cartao-2: #1c1b23;
+  --color-borda: #26252f;
+  --color-borda-2: #363441;
+  --color-prata: #e9e7f0;
+  --color-prata-2: #bdbac9;
+  --color-grafite: #7a7590;
+  --color-texto: #efeef4;
+  --color-suave: #a19eb0;
+  --color-apagado: #6c697a;
+  --color-violeta: #9085e9;
+  --color-agua: #199e70;
+  --color-alerta: #e0b25c;
+  --color-perigo: #e66767;
+  --color-ok: #5fbf8f;
+  --color-frio: #7fa8d9;
+
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Archivo', 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+html,
+body,
+#root {
+  min-height: 100dvh;
+}
+
+/* App sem zoom: só rolagem (sem pinça nem toque duplo). O mapa tem o próprio zoom. */
+html {
+  touch-action: pan-x pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-fundo font-sans text-texto antialiased;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+/* Títulos e números grandes: Archivo levemente condensado */
+.titulo {
+  font-family: var(--font-display);
+  font-stretch: 88%;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  word-spacing: 0.06em;
+  text-wrap: balance;
+}
+
+/* Rótulos técnicos em caixa alta */
+.rotulo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-apagado);
+}
+
+/* Corte diagonal da logo: canto superior esquerdo e inferior direito */
+.chanfro {
+  --c: 10px;
+  clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c));
+}
+.chanfro-sm {
+  --c: 6px;
+}
+
+/* Prata metálico, o mesmo degradê da logo */
+.prata {
+  background: linear-gradient(180deg, #ffffff 0%, #d9d7e2 55%, #a9a5bb 100%);
+  color: #121118;
+}
+.texto-prata {
+  background: linear-gradient(180deg, #ffffff 30%, #9d98b1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-prata-2);
+  outline-offset: 2px;
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.animar-entrada {
+  animation: entrar 0.22s ease-out;
+}
+@keyframes painel {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.animar-painel {
+  animation: painel 0.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animar-entrada,
+  .animar-painel {
+    animation: none;
+  }
+}
+
+/* Tiles do OpenStreetMap no tema escuro: inverte e devolve as cores ao tom original */
+.mapa-escuro {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.4);
+}
